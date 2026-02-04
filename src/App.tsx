@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PaperImg from './components/paperImg';
 import GoBut from './components/goBut';
+import KeyBut from './components/keyBut';
 
 function App() {
     const [task1Link, setTask1Link] = useState('');
@@ -25,10 +26,7 @@ function App() {
                     bg-center bg-no-repeat bg-conic
                 "
                 style={{
-                    backgroundImage: 'url("whatass/clipboard.png")',
-                    // backgroundRepeat: 'no-repeat',
-                    // backgroundSize: 'cover',       // or 'contain'
-                    // backgroundPosition: 'center',
+                    backgroundImage: 'url("whatass/clipboard.png")'
                 }}
                     aria-hidden="true"
                     >
@@ -97,12 +95,16 @@ function App() {
                         {/* Task 1 - Follow */}
                         <div className="flex items-center justify-between bg-[#e8e0d0] rounded p-3 border-b-2 border-[#ccc]">
                             <p className="text-xs font-bold text-gray-800 flex-1 pr-2" style={{ fontFamily: 'Arial Black, sans-serif' }}>
-                                FOLLOW @PostRugPhotos AND TURN ON NOTIS
+                                FOLLOW @dumbdegenboy67 AND TURN ON NOTIS
                             </p>
-                            <button className="px-3 py-1 text-xs font-bold bg-[#d4d0c8] border-2 border-[#888] rounded shadow-[2px_2px_0_#666] hover:translate-y-0.5 hover:shadow-[1px_1px_0_#666] transition-all"
+                            {/* <button className="px-3 py-1 text-xs font-bold bg-[#d4d0c8] border-2 border-[#888] rounded shadow-[2px_2px_0_#666] hover:translate-y-0.5 hover:shadow-[1px_1px_0_#666] transition-all"
                                 style={{ fontFamily: 'monospace' }}>
                                 ENTER
-                            </button>
+                            </button> */}
+                            <KeyBut 
+                                url='https://x.com/dumbdegenboy67'
+                                value='ENTER'
+                            />
                         </div>
 
                         {/* Task 2 - Like & Retweet */}
@@ -110,46 +112,13 @@ function App() {
                             <p className="text-xs font-bold text-gray-800 flex-1 pr-2" style={{ fontFamily: 'Arial Black, sans-serif' }}>
                                 LIKE & RETWEET THIS POST
                             </p>
-                            <button className="px-3 py-1 text-xs font-bold bg-[#d4d0c8] border-2 border-[#888] rounded shadow-[2px_2px_0_#666] hover:translate-y-0.5 hover:shadow-[1px_1px_0_#666] transition-all"
-                                style={{ fontFamily: 'monospace' }}>
-                                CTRL
-                            </button>
-                        </div>
-                        {/* bg-[#ebe0cc] */}
-                        {/* Task 3 - Quote with burnt paper */}
-                        {/* <div className="
-                            relative 
-                            rounded p-3 overflow-hidden
-                        "
-                            style={{
-                                // boxShadow: 'inset 0 0 20px rgba(139, 69, 19, 0.3)',
-                                backgroundImage: 'url("whatass/paper.png")',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: 'cover',       // or 'contain'
-                                backgroundPosition: 'center',
-                            }}>
-
-                            <div className="absolute inset-0 pointer-events-none"
-                                style={{
-                                    // background: 'radial-gradient(ellipse at 0% 0%, rgba(60,30,10,0.4) 0%, transparent 30%), radial-gradient(ellipse at 100% 0%, rgba(60,30,10,0.3) 0%, transparent 25%), radial-gradient(ellipse at 0% 100%, rgba(60,30,10,0.4) 0%, transparent 30%), radial-gradient(ellipse at 100% 100%, rgba(60,30,10,0.3) 0%, transparent 25%)'
-                                }} />
-
-                            <div className="flex justify-between items-center mb-2 flex-row sm:flex-col">
-                                <p className="text-sm text-gray-800 flex-1" style={{ fontFamily: 'Arial Black, sans-serif' }}>
-                                    QUOTE WITH "dDb67 eth niggas"<br />
-                                    <span className="text-[10px] text-gray-600">(OPTIONAL)</span>
-                                </p>
-                                <GoBut 
-                                    url='https://x.com/PostRugPhotos'
-                                />
-                            </div>
-                            <PaperImg 
-                                value={task1Link}
-                                onChange={(e) => setTask1Link(e.target.value)}
-                                placeholder="PASTE LINK"
-                                paperImage="/whatass/burntpaper.png"
+                            <KeyBut 
+                                url='https://x.com/dumbdegenboy67'
+                                value='CTRL'
                             />
-                        </div> */}
+                        </div>
+
+                        {/* Task 3 - Quote with burnt paper */}
                         <div
                             className="relative bg-[#ebe0cc] rounded p-3 overflow-hidden bg-center bg-no-repeat bg-conic border-b-2 border-[#ccc]"
                             style={{ 
@@ -174,7 +143,7 @@ function App() {
                                 <p className="text-sm text-gray-800" style={{ fontFamily: "Arial Black, sans-serif" }}>
                                     QUOTE WITH "dDb67 eth niggas"(OPTIONAL)
                                 </p>
-                                <GoBut url="https://x.com/PostRugPhotos" />
+                                <GoBut url="https://x.com/dumbdegenboy67" />
                             </div>
 
                             <div className="-mt-6 relative z-10">
@@ -201,14 +170,13 @@ function App() {
                                 style={{
                                 background:
                                     "radial-gradient(ellipse at 0% 0%, rgba(60,30,10,0.4) 0%, transparent 30%), radial-gradient(ellipse at 100% 0%, rgba(60,30,10,0.3) 0%, transparent 25%), radial-gradient(ellipse at 0% 100%, rgba(60,30,10,0.4) 0%, transparent 30%), radial-gradient(ellipse at 100% 100%, rgba(60,30,10,0.3) 0%, transparent 25%)",
-                                }}
-                            />
+                                }} />
 
                             <div className="flex justify-between items-center mb-4 relative z-20">
                                 <p className="text-sm text-gray-800" style={{ fontFamily: "Arial Black, sans-serif" }}>
                                 TAG 2 UNEMPLOYED FRENS
                                 </p>
-                                <GoBut url="https://x.com/PostRugPhotos" />
+                                <GoBut url="https://x.com/dumbdegenboy67" />
                             </div>
 
                             <div className="-mt-8 relative z-10">
@@ -221,7 +189,6 @@ function App() {
                             </div>
                         </div>
                     
-
                         {/* Continue to Wallet Button - Ransom Style */}
                         <div className="flex flex-wrap justify-center gap-1 pt-2">
                             {['C', 'O', 'N', 'T', 'I', 'N', 'U', 'E'].map((letter, i) => (
