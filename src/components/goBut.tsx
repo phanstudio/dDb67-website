@@ -22,7 +22,7 @@ export default function GoBut({
         "
         >
         <img
-            src="whatass/gobutton.png"
+            src="gobutton.webp"
             alt="GO"
             draggable={false}
             className="

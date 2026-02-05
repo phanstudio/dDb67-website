@@ -40,16 +40,37 @@ body::after {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    @apply bg-degen-gray border-l-2 border-degen-dirty-gray;
+    @apply bg-transparent border-l-2 border-degen-dirty-gray;
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-toxic-green border-2 border-black hover:bg-burnt-orange transition-colors;
+    @apply border-2 border-black hover:bg-burnt-orange transition-colors rounded-full;
+    background: linear-gradient(
+    135deg,
+    rgba(54, 58, 67, 0.667) 0%,
+    #2d2d2d 50%,
+    #691fc4 100%
+  );
 }
+
+/* .body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.body::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.body::-webkit-scrollbar-thumb {
+    background-color: #3b82f6;
+    border-radius: 9999px;    
+    border: 2px solid transparent;
+    background-clip: padding-box;
+} */
 
 /* Utility: Torn Paper Edge (Top/Bottom) */
 .mask-torn-top {

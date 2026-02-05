@@ -13,7 +13,7 @@ export default function PaperImg({
     onChange,
     placeholder = "PASTE LINK",
     className = "",
-    paperImage = "/whatass/burntpaper.png",
+    paperImage = "burntpaper.webp",
 }: PaperImgProps) {
   return (
     <div className="relative group overflow-visible">

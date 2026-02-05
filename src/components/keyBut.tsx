@@ -25,7 +25,7 @@ export default function KeyBut({
     >
       {/* Image */}
       <img
-        src="whatass/key.png"
+        src="key.webp"
         alt="GO"
         draggable={false}
         className="
