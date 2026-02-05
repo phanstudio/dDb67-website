@@ -5,7 +5,7 @@ export default {
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {
+        extend: {      
             colors: {
                 'degen-black': '#050505',
                 'degen-gray': '#1a1a1a',
@@ -21,6 +21,7 @@ export default {
                 'mono': ['"Courier Prime"', '"VT323"', 'monospace'],
                 'glitch': ['"Rubik Glitch"', 'cursive'],
                 'ransom': ['"Special Elite"', 'cursive'], // Good for ransom-note style
+                'valentine': ['"Valentine Delight"', 'cursive'],
             },
             backgroundImage: {
                 'noise': "url('/noise.png')", // Will check if I can generate or use CSS gradient

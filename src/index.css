@@ -11,6 +11,15 @@
     --bg-dark: #050505;
 }
 
+
+@font-face {
+    font-family: "Valentine Delight";
+    src: url("./assets/fonts/ValentineDelight.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}  
+
 body {
     @apply bg-degen-black text-off-white overflow-x-hidden font-mono min-h-screen relative;
     /* Simple CSS Noise */

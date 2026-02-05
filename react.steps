@@ -1,2 +1,4 @@
 npm install
 npm run dev
+
+$ npx ttf2woff2 ValentineDelight.ttf
