@@ -6,11 +6,10 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen relative overflow-hidden font-mono flex items-center 
-        justify-center p-0 md:p-4 bg-center bg-no-repeat bg-cover"
-            style={{ 
-                backgroundImage: 'url("bg.webp")',
-            }}>
-            <div className="relative w-full max-w-md overflow-visible group/clipboard">
+        justify-center p-0 md:p-4 bg-center bg-no-repeat bg-cover bg-black">
+            <div className="tv-static" />
+            <div className="tv-scanlines" />
+            <div className="relative z-10 w-full max-w-md overflow-visible group/clipboard">
                 <div className="relative overflow-visible h-[750px]">
                     {/* Clipboard image (controls the size) */}
                     <img
