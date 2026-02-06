@@ -3,12 +3,48 @@ import PaperImg from '../components/paperImg';
 import GoBut from '../components/goBut';
 import KeyBut from '../components/keyBut';
 import { useNavigate } from 'react-router-dom';
+import { useSubmission } from '../context/SubmissionContext';
 
 export default function TaskPage() {
-    const [task1Link, setTask1Link] = useState('');
-    const [task2Link, setTask2Link] = useState('');
     const navigate = useNavigate()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
+    const [repostError, setRepostError] = useState('')
+    const [commentError, setCommentError] = useState('')
+
+    const {
+        data,
+        updateData,
+        setStepCompleted,
+        validateXLink,
+    } = useSubmission()
+
+    const handleContinue = () => {
+        setRepostError('')
+        setCommentError('')
+
+        const repostLink = data.repostLink.trim()
+        const commentLink = data.commentLink.trim()
+
+        if (!commentLink) {
+            setCommentError('COMPLETE ALL TASKS AND PASTE BOTH LINKS!')
+            return
+        }
+        if (commentLink && repostLink && commentLink === repostLink) {
+            setCommentError("DON'T PASTE THE SAME LINK TWICE")
+            return
+        }
+        if (commentLink && !validateXLink(commentLink)) {
+            setCommentError('ENTER A VALID X/TWITTER LINK')
+            return
+        }
+
+        updateData({
+            repostLink,
+            commentLink,
+        })
+        setStepCompleted('tasks')
+        navigate('/wallet')
+    }
 
     return (
         <div className="min-h-screen relative overflow-hidden font-mono flex items-center 
@@ -195,12 +231,18 @@ export default function TaskPage() {
 
                                     <div className="-mt-6 relative z-10">
                                         <PaperImg
-                                        value={task1Link}
-                                        onChange={(e) => setTask1Link(e.target.value)}
+                                        value={data.repostLink}
+                                        onChange={(e) => {
+                                            updateData({ repostLink: e.target.value })
+                                            setRepostError('')
+                                        }}
                                         placeholder="PASTE YOUR REPOST LINK"
                                         paperImage="/burntpaper.webp"
                                         />
                                     </div>
+                                    {repostError && (
+                                        <div className="mt-2 text-xs font-bold text-red-600">{repostError}</div>
+                                    )}
                                 </div>
 
                                 {/* Task 4 - Tag 2 Frens with burnt paper */}
@@ -228,12 +270,18 @@ export default function TaskPage() {
 
                                     <div className="-mt-5 relative z-10">
                                         <PaperImg
-                                        value={task2Link}
-                                        onChange={(e) => setTask2Link(e.target.value)}
+                                        value={data.commentLink}
+                                        onChange={(e) => {
+                                            updateData({ commentLink: e.target.value })
+                                            setCommentError('')
+                                        }}
                                         placeholder="PASTE YOUR COMMENT LINK"
                                         paperImage="/burntpaper.webp"
                                         />
                                     </div>
+                                    {commentError && (
+                                        <div className="mt-2 text-xs font-bold text-red-600">{commentError}</div>
+                                    )}
                                 </div>
                             
                                 {/* Continue to Wallet Button - Ransom Style */}
@@ -242,11 +290,19 @@ export default function TaskPage() {
                                     items-baseline border-b-2
                                     border-[#0008]
                                     "
-                                    onClick={() => navigate('/wallet')}
+                                    onClick={handleContinue}
                                     style={{ 
                                         backgroundImage: 'url("paper.webp")',
                                         boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
                                     }}
+                                    onKeyDown={(event) => {
+                                        if (event.key === 'Enter' || event.key === ' ') {
+                                            event.preventDefault()
+                                            handleContinue()
+                                        }
+                                    }}
+                                    role="button"
+                                    tabIndex={0}
                                 >
                                     {['C', 'O', 'N', 'T', 'I', 'N', 'U', 'E'].map((letter, i) => (
                                         <span key={i}

@@ -1,13 +1,102 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PaperImg from '../components/paperImg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSubmission } from '../context/SubmissionContext';
 
 export default function DeetsPage() {
-    const [task1Link, setTask1Link] = useState('');
-    const [task2Link, setTask2Link] = useState('');
     const navigate = useNavigate()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
     const [noInviter, setNoInviter] = useState(false)
+    const [inviteeLocked, setInviteeLocked] = useState(false)
+    const [usernameError, setUsernameError] = useState('')
+    const [usernameExistsError, setUsernameExistsError] = useState('')
+    const [inviteeError, setInviteeError] = useState('')
+    const [inviteeWarning, setInviteeWarning] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [searchParams] = useSearchParams()
+
+    const {
+        data,
+        updateData,
+        setStepCompleted,
+        setReferralFromParam,
+        validateUsername,
+        checkUsernameExists,
+        checkInviteeExists,
+    } = useSubmission()
+
+    useEffect(() => {
+        const refParam = searchParams.get('ref')
+        if (refParam) {
+            const normalized = setReferralFromParam(refParam)
+            if (normalized) {
+                updateData({ invitee: normalized })
+            }
+            setInviteeLocked(true)
+            setNoInviter(false)
+        }
+    }, [searchParams, setReferralFromParam, updateData])
+
+    const handleContinue = async () => {
+        setUsernameError('')
+        setUsernameExistsError('')
+        setInviteeError('')
+        setInviteeWarning('')
+
+        const username = data.username.trim()
+        if (!username) {
+            setUsernameError('ENTER YOUR X USERNAME!')
+            return
+        }
+        if (!validateUsername(username)) {
+            setUsernameError('USERNAME MUST START WITH @ (e.g., @username)')
+            return
+        }
+
+        setLoading(true)
+        const usernameResult = await checkUsernameExists(username)
+        setLoading(false)
+        if (usernameResult.error) {
+            setUsernameExistsError(usernameResult.error)
+            return
+        }
+        if (usernameResult.exists) {
+            setUsernameExistsError('USERNAME ALREADY REGISTERED!')
+            return
+        }
+
+        let invitee = data.invitee.trim()
+        if (noInviter && !inviteeLocked) {
+            invitee = ''
+        }
+
+        if (invitee) {
+            if (!validateUsername(invitee)) {
+                setInviteeError('INVITEE MUST START WITH @ (e.g., @inviter)')
+                return
+            }
+            if (invitee.toLowerCase() === username.toLowerCase()) {
+                setInviteeError("YOU CAN'T INVITE YOURSELF!")
+                return
+            }
+
+            setLoading(true)
+            const inviteeResult = await checkInviteeExists(invitee)
+            setLoading(false)
+            if (!inviteeResult.exists) {
+                setInviteeWarning("INVITER NOT FOUND! MAKE SURE THEY'RE REGISTERED")
+                return
+            }
+        }
+
+        updateData({
+            username,
+            invitee: invitee || '',
+            userAgent: navigator.userAgent,
+        })
+        setStepCompleted('username')
+        navigate('/task')
+    }
 
     return (
         <div className="min-h-screen relative overflow-hidden font-mono flex items-center 
@@ -129,12 +218,22 @@ export default function DeetsPage() {
 
                                     <div className="-mt-6 relative z-10">
                                         <PaperImg
-                                        value={task1Link}
-                                        onChange={(e) => setTask1Link(e.target.value)}
+                                        value={data.username}
+                                        onChange={(e) => {
+                                            updateData({ username: e.target.value })
+                                            setUsernameError('')
+                                            setUsernameExistsError('')
+                                        }}
                                         placeholder="@yourusername"
                                         paperImage="/burntpaper.webp"
                                         />
                                     </div>
+                                    {usernameError && (
+                                        <div className="mt-2 text-xs font-bold text-red-600">{usernameError}</div>
+                                    )}
+                                    {usernameExistsError && (
+                                        <div className="mt-2 text-xs font-bold text-red-600">{usernameExistsError}</div>
+                                    )}
                                 </div>
 
                                 {/* Task 4 - Tag 2 Frens with burnt paper */}
@@ -161,12 +260,22 @@ export default function DeetsPage() {
 
                                     <div className="-mt-5 relative z-10">
                                         <PaperImg
-                                        value={task2Link}
-                                        onChange={(e) => setTask2Link(e.target.value)}
+                                        value={data.invitee}
+                                        onChange={(e) => {
+                                            updateData({ invitee: e.target.value })
+                                            setInviteeError('')
+                                            setInviteeWarning('')
+                                        }}
                                         placeholder="@inviterusername"
                                         paperImage="/burntpaper.webp"
                                         />
                                     </div>
+                                    {inviteeError && (
+                                        <div className="mt-2 text-xs font-bold text-red-600">{inviteeError}</div>
+                                    )}
+                                    {inviteeWarning && (
+                                        <div className="mt-2 text-xs font-bold text-red-600">{inviteeWarning}</div>
+                                    )}
                                 </div>
                                 
                                 <div>
@@ -200,7 +309,16 @@ export default function DeetsPage() {
                                         type="checkbox"
                                         id="no_invitee"
                                         checked={noInviter}
-                                        onChange={(e) => setNoInviter(e.target.checked)}
+                                        onChange={(e) => {
+                                            if (inviteeLocked) return
+                                            setNoInviter(e.target.checked)
+                                            if (e.target.checked) {
+                                                updateData({ invitee: '' })
+                                                setInviteeWarning('')
+                                                setInviteeError('')
+                                            }
+                                        }}
+                                        disabled={inviteeLocked}
                                         className="w-5 h-5 mr-3 accent-black scale-125"
                                     />
                                     <label
@@ -222,11 +340,19 @@ export default function DeetsPage() {
                                     items-baseline border-b-2
                                     border-[#0008]
                                     "
-                                    onClick={() => navigate('/task')}
+                                    onClick={handleContinue}
                                     style={{ 
                                         backgroundImage: 'url("paper.webp")',
                                         boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
                                     }}
+                                    onKeyDown={(event) => {
+                                        if (event.key === 'Enter' || event.key === ' ') {
+                                            event.preventDefault()
+                                            handleContinue()
+                                        }
+                                    }}
+                                    role="button"
+                                    tabIndex={0}
                                 >
                                     {['C', 'O', 'N', 'T', 'I', 'N', 'U', 'E'].map((letter, i) => (
                                         <span key={i}
@@ -282,6 +408,9 @@ export default function DeetsPage() {
                                             }}>{letter}</span>
                                     ))}
                                 </div>
+                                {loading && (
+                                    <div className="mt-2 text-xs font-bold text-black">CHECKING...</div>
+                                )}
 
                                 {/* Back Button */}
                                 <div className="flex justify-center pt-2">

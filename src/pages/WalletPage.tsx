@@ -1,11 +1,62 @@
 import { useState } from 'react';
 import PaperImg from '../components/paperImg';
 import { useNavigate } from 'react-router-dom';
+import { useSubmission } from '../context/SubmissionContext';
 
 export default function WalletPage() {
-    const [task1Link, setTask1Link] = useState('');
     const navigate = useNavigate()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
+    const [addressError, setAddressError] = useState('')
+    const [walletExistsError, setWalletExistsError] = useState('')
+    const [submitError, setSubmitError] = useState('')
+    const [loading, setLoading] = useState(false)
+
+    const {
+        data,
+        updateData,
+        setStepCompleted,
+        validateEvmAddress,
+        checkWalletExists,
+        submitEntry,
+    } = useSubmission()
+
+    const handleSubmit = async () => {
+        setAddressError('')
+        setWalletExistsError('')
+        setSubmitError('')
+
+        const walletAddress = data.walletAddress.trim()
+        if (!validateEvmAddress(walletAddress)) {
+            setAddressError('INVALID EVM ADDRESS!')
+            return
+        }
+
+        setLoading(true)
+        const walletResult = await checkWalletExists(walletAddress)
+        if (walletResult.exists) {
+            setLoading(false)
+            setWalletExistsError('WALLET ALREADY REGISTERED!')
+            return
+        }
+
+        const payload = {
+            ...data,
+            walletAddress,
+            createdAt: new Date().toISOString(),
+        }
+
+        try {
+            await submitEntry(payload)
+            updateData(payload)
+            setStepCompleted('wallet')
+            setLoading(false)
+            navigate('/submit')
+        } catch (error) {
+            setLoading(false)
+            const message = error instanceof Error ? error.message : 'Submission failed'
+            setSubmitError(message)
+        }
+    }
 
     return (
         <div className="min-h-screen relative overflow-hidden font-mono flex items-center 
@@ -136,12 +187,22 @@ export default function WalletPage() {
 
                                     <div className="-mt-6 relative z-10">
                                         <PaperImg
-                                        value={task1Link}
-                                        onChange={(e) => setTask1Link(e.target.value)}
+                                        value={data.walletAddress}
+                                        onChange={(e) => {
+                                            updateData({ walletAddress: e.target.value })
+                                            setAddressError('')
+                                            setWalletExistsError('')
+                                        }}
                                         placeholder="0xYOURWALLETADDRESSHERE"
                                         paperImage="/burntpaper.webp"
                                         />
                                     </div>
+                                    {addressError && (
+                                        <div className="mt-2 text-xs font-bold text-red-600">{addressError}</div>
+                                    )}
+                                    {walletExistsError && (
+                                        <div className="mt-2 text-xs font-bold text-red-600">{walletExistsError}</div>
+                                    )}
                                 </div>
 
                                 {/* Continue to Wallet Button - Ransom Style */}
@@ -150,11 +211,19 @@ export default function WalletPage() {
                                     items-baseline border-b-2
                                     border-[#0008]
                                     "
-                                    onClick={() => navigate('/submit')}
+                                    onClick={handleSubmit}
                                     style={{ 
                                         backgroundImage: 'url("paper.webp")',
                                         boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
                                     }}
+                                    onKeyDown={(event) => {
+                                        if (event.key === 'Enter' || event.key === ' ') {
+                                            event.preventDefault()
+                                            handleSubmit()
+                                        }
+                                    }}
+                                    role="button"
+                                    tabIndex={0}
                                 >
                                     {['S', 'U', 'B', 'M', 'I', 'T'].map((letter, i) => (
                                         <span key={i}
@@ -177,6 +246,12 @@ export default function WalletPage() {
                                     ))}
                                     <span className="mx-1" />
                                 </div>
+                                {loading && (
+                                    <div className="mt-2 text-xs font-bold text-black">SUBMITTING...</div>
+                                )}
+                                {submitError && (
+                                    <div className="mt-2 text-xs font-bold text-red-600">{submitError}</div>
+                                )}
 
                                 {/* Back Button */}
                                 <div className="flex justify-center pt-2">

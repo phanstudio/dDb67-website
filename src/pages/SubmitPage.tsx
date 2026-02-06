@@ -1,8 +1,26 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSubmission } from '../context/SubmissionContext';
 
 export default function SubmitPage() {
     const navigate = useNavigate()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
+    const [copied, setCopied] = useState(false)
+    const { data } = useSubmission()
+
+    const inviteLink = data.username
+        ? `${window.location.origin}/?ref=${encodeURIComponent(data.username)}`
+        : `${window.location.origin}/`
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(inviteLink)
+            setCopied(true)
+            setTimeout(() => setCopied(false), 2000)
+        } catch {
+            setCopied(false)
+        }
+    }
 
     return (
         <div className="min-h-screen relative overflow-hidden font-mono flex items-center 
@@ -128,13 +146,13 @@ export default function SubmitPage() {
                                             text-black text-md text-center font-bold
                                             placeholder:text-gray-500
                                             relative'
+                                            onClick={handleCopy}
                                         >
-                                            https://x.com/PostRugPhotos
+                                            {inviteLink}
                                         </button>
                                     </div>
                                 </div>
-                                
-                                CLICK TO COPY LINK <br />
+                                {copied ? 'LINK COPIED!' : 'CLICK TO COPY LINK'} <br />
                                 SHARE LINK FOR HIGHER REVIEW CHANCE <br />
 
                                 STAY TUNED FOR UPDATES <br />
