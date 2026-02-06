@@ -433,6 +433,7 @@ export default function TaskPage() {
                     </div>
                 </div>
             </div>
+            <img src="fg.webp" alt="forground" className="absolute w-auto h-[110%] z-30 pointer-events-none object-cover" />
         </div>
     )
 }

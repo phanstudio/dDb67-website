@@ -167,6 +167,7 @@ export default function HomePage() {
                     </div>
                 </div>
             </div>
+            <img src="fg.webp" alt="forground" className="absolute w-auto h-[120%] z-30 pointer-events-none object-cover" />
         </div>
     )
 }
