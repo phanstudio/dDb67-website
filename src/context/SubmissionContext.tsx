@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 
-const API_BASE_URL = 'https://prp-fun.vercel.app';
+const API_BASE_URL = 'https://ddb67-fun.vercel.app';
 
 const API_ENDPOINTS = {
   submit: `${API_BASE_URL}/api/submit`,
