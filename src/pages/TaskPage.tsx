@@ -2,11 +2,11 @@ import { useState } from 'react';
 import PaperImg from '../components/paperImg';
 import GoBut from '../components/goBut';
 import KeyBut from '../components/keyBut';
-import { useNavigate } from 'react-router-dom';
+import { useGo } from "../context/Usego";
 import { useSubmission } from '../context/SubmissionContext';
 
 export default function TaskPage() {
-    const navigate = useNavigate()
+    const go = useGo()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
     const [repostError, setRepostError] = useState('')
     const [commentError, setCommentError] = useState('')
@@ -43,7 +43,7 @@ export default function TaskPage() {
             commentLink,
         })
         setStepCompleted('tasks')
-        navigate('/wallet')
+        go('/wallet')
     }
 
     return (
@@ -52,21 +52,31 @@ export default function TaskPage() {
             style={{ 
                 backgroundImage: 'url("bg.webp")',
             }}>
-            <div className="relative w-full max-w-md overflow-visible">
+            <div className="relative w-full max-w-md overflow-visible group/clipboard">
                 <div className="relative overflow-visible h-[900px]">
                     {/* Clipboard image (controls the size) */}
                     <img
                     src="clipboard.webp"
                     alt=""
-                    className="w-auto h-full block scale-x-[1.05] scale-y-[0.97]"
+                    className="w-auto h-full block scale-x-[1.05] scale-y-[0.97]
+                        transition-transform duration-300 ease-out
+                        group-hover/clipboard:-translate-y-2
+                        group-hover/clipboard:rotate-[0.4deg]
+                    "
                     />
 
                     {/* Content on top */}
-                    <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col">
+                    {/* <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col"> */}
+                    <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col
+                            transition-transform duration-300 ease-out
+                            group-hover/clipboard:-translate-y-2
+                            group-hover/clipboard:rotate-[0.4deg]
+                        "
+                    >
                         {/* Header - "COMPLETE THESE TASKS" Ransom Style */}
                         <div className="
                             flex flex-wrap justify-center mb-2 px-2 items-baseline z-10
-                            pb-1 relative pt-2 [filter:drop-shadow(0_4px_5px_rgba(0,0,0,0.55))] shrink-0 relative
+                            pb-1 relative pt-2 [filter:drop-shadow(0_4px_5px_rgba(0,0,0,0.55))] shrink-0
                         " 
                             style={{ 
                                 boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
@@ -157,8 +167,7 @@ export default function TaskPage() {
                                         boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
                                     }}
                                 >
-                                    <p className="text-xs font-bold text-gray-800 flex-1 pr-2 text-center md:text-left" 
-                                        style={{ fontFamily: 'Arial Black, sans-serif' }}
+                                    <p className="text-xs font-bold text-gray-800 flex-1 pr-2 text-center md:text-left font-inter" 
                                     >
                                         FOLLOW @dumbdegenboy67 AND TURN ON NOTIS
                                     </p>
@@ -184,8 +193,7 @@ export default function TaskPage() {
                                         boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
                                     }}
                                 >
-                                    <p className="text-xs font-bold text-gray-800 flex-1 pr-2 text-center md:text-left" 
-                                        style={{ fontFamily: 'Arial Black, sans-serif' }}
+                                    <p className="text-xs font-bold text-gray-800 flex-1 pr-2 text-center md:text-left font-inter"
                                     >
                                         LIKE & RETWEET THIS POST
                                     </p>
@@ -223,7 +231,7 @@ export default function TaskPage() {
                                     />
 
                                     <div className="flex justify-between items-center mb-5 ml-2 relative z-20 flex-col md:flex-row">
-                                        <p className="text-sm text-gray-800 text-center md:text-left" style={{ fontFamily: "Arial Black, sans-serif" }}>
+                                        <p className="text-sm text-gray-800 text-center md:text-left font-inter font-bold">
                                             QUOTE WITH "dDb67 eth niggas"(OPTIONAL)
                                         </p>
                                         <GoBut url="https://x.com/dumbdegenboy67" />
@@ -262,7 +270,7 @@ export default function TaskPage() {
                                         }} />
 
                                     <div className="flex justify-between items-center mb-4 relative z-20 flex-col md:flex-row">
-                                        <p className="text-sm text-gray-800 text-center md:text-left" style={{ fontFamily: "Arial Black, sans-serif" }}>
+                                        <p className="text-sm text-gray-800 text-center md:text-left font-inter font-bold">
                                         TAG 2 UNEMPLOYED FRENS
                                         </p>
                                         <GoBut url="https://x.com/dumbdegenboy67" />
@@ -288,7 +296,9 @@ export default function TaskPage() {
                                 <div className="flex flex-wrap justify-center py-2 
                                     bg-center bg-no-repeat bg-conic relative rounded-lg
                                     items-baseline border-b-2
-                                    border-[#0008]
+                                    border-[#0008] transition-transform duration-150 ease-out
+                                    active:scale-[0.96] hover:-translate-y-[1px]
+                                    hover:scale-[1.04] active:translate-y-[1px]
                                     "
                                     onClick={handleContinue}
                                     style={{ 
@@ -310,8 +320,7 @@ export default function TaskPage() {
                                                 px-[2px] py-1 text-lg font-bold cursor-pointer 
                                                 hover:scale-110 transition-transform
                                                 inline-flex items-baseline align-baseline
-                                                leading-none 
-                                                border-b-2 border-[#0007]
+                                                leading-none border-b-2 border-[#0007]
                                             "
                                             style={{
                                                 background: i % 4 === 0 ? '#8b0000' : i % 4 === 1 ? '#1a1a1a' : i % 4 === 2 ? '#c9a875' : '#333',
@@ -395,7 +404,7 @@ export default function TaskPage() {
                                         relative z-10
                                         font-valentine
                                         "
-                                        onClick={() => navigate('/deets')}
+                                        onClick={() => go('/deets')}
                                     >
                                         <span className="text-lg">←</span> BACK
                                     </button>

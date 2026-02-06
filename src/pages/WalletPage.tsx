@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import PaperImg from '../components/paperImg';
-import { useNavigate } from 'react-router-dom';
+import { useGo } from "../context/Usego";
 import { useSubmission } from '../context/SubmissionContext';
+import Loading from '../components/loading';
 
 export default function WalletPage() {
-    const navigate = useNavigate()
+    const go = useGo()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
     const [addressError, setAddressError] = useState('')
     const [walletExistsError, setWalletExistsError] = useState('')
@@ -50,7 +51,7 @@ export default function WalletPage() {
             updateData(payload)
             setStepCompleted('wallet')
             setLoading(false)
-            navigate('/submit')
+            go('/submit')
         } catch (error) {
             setLoading(false)
             const message = error instanceof Error ? error.message : 'Submission failed'
@@ -58,27 +59,40 @@ export default function WalletPage() {
         }
     }
 
+    if (loading) return (
+        <Loading />
+    )
+
     return (
         <div className="min-h-screen relative overflow-hidden font-mono flex items-center 
         justify-center p-0 md:p-4 bg-center bg-no-repeat bg-cover"
             style={{ 
                 backgroundImage: 'url("bg.webp")',
             }}>
-            <div className="relative w-full max-w-md overflow-visible">
+            <div className="relative w-full max-w-md overflow-visible group/clipboard">
                 <div className="relative overflow-visible h-[750px]">
                     {/* Clipboard image (controls the size) */}
                     <img
                     src="clipboard.webp"
                     alt=""
-                    className="w-auto h-full block scale-x-[1.05] scale-y-[0.97]"
+                    className="w-auto h-full block scale-x-[1.05] scale-y-[0.97]
+                        transition-transform duration-300 ease-out
+                        group-hover/clipboard:-translate-y-2
+                        group-hover/clipboard:rotate-[0.4deg]
+                    "
                     />
 
                     {/* Content on top */}
-                    <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col">
+                    <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col
+                            transition-transform duration-300 ease-out
+                            group-hover/clipboard:-translate-y-2
+                            group-hover/clipboard:rotate-[0.4deg]
+                        "
+                    >
                         {/* Header - "COMPLETE THESE TASKS" Ransom Style */}
                         <div className="
                             flex flex-wrap justify-center mb-2 px-2 items-baseline z-10
-                            pb-1 relative pt-2 [filter:drop-shadow(0_4px_5px_rgba(0,0,0,0.55))] shrink-0 relative
+                            pb-1 relative pt-2 [filter:drop-shadow(0_4px_5px_rgba(0,0,0,0.55))] shrink-0
                         " 
                             style={{ 
                                 boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
@@ -208,8 +222,10 @@ export default function WalletPage() {
                                 {/* Continue to Wallet Button - Ransom Style */}
                                 <div className="flex flex-wrap justify-center py-2 
                                     bg-center bg-no-repeat bg-conic relative rounded-lg
-                                    items-baseline border-b-2
-                                    border-[#0008]
+                                    items-baseline border-b-2 border-[#0008]
+                                    transition-transform duration-150 ease-out
+                                    active:scale-[0.96] hover:-translate-y-[1px]
+                                    hover:scale-[1.04] active:translate-y-[1px]
                                     "
                                     onClick={handleSubmit}
                                     style={{ 
@@ -289,7 +305,7 @@ export default function WalletPage() {
                                         relative z-10
                                         font-valentine
                                         "
-                                        onClick={() => navigate('/task')}
+                                        onClick={() => go('/task')}
                                     >
                                         <span className="text-lg">←</span> BACK
                                     </button>

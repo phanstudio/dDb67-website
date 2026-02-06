@@ -1,8 +1,7 @@
-import { useNavigate } from 'react-router-dom'
-
+import { useGo } from "../context/Usego";
 
 export default function HomePage() {
-    const navigate = useNavigate()
+    const go = useGo()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
 
     return (
@@ -11,21 +10,33 @@ export default function HomePage() {
             style={{ 
                 backgroundImage: 'url("bg.webp")',
             }}>
-            <div className="relative w-full max-w-md overflow-visible">
+            <div className="relative w-full max-w-md overflow-visible group/clipboard">
                 <div className="relative overflow-visible h-[750px]">
                     {/* Clipboard image (controls the size) */}
                     <img
                     src="clipboard.webp"
                     alt=""
-                    className="w-auto h-full block scale-x-[1.05] scale-y-[0.97]"
+                    // className="w-auto h-full block scale-x-[1.05] scale-y-[0.97]"
+                    className="
+                        w-auto h-full block
+                        scale-x-[1.05] scale-y-[0.97]
+                        transition-transform duration-300 ease-out
+                        group-hover/clipboard:-translate-y-2
+                        group-hover/clipboard:rotate-[0.4deg]
+                    "
                     />
 
                     {/* Content on top */}
-                    <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col">
+                    <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col
+                            transition-transform duration-300 ease-out
+                            group-hover/clipboard:-translate-y-2
+                            group-hover/clipboard:rotate-[0.4deg]
+                        "
+                    >
                         {/* Header - "COMPLETE THESE TASKS" Ransom Style */}
                         <div className="
                             flex flex-wrap justify-center mb-2 px-2 items-baseline z-10
-                            pb-1 relative pt-2 [filter:drop-shadow(0_4px_5px_rgba(0,0,0,0.55))] shrink-0 relative
+                            pb-1 relative pt-2 [filter:drop-shadow(0_4px_5px_rgba(0,0,0,0.55))] shrink-0
                         " 
                             style={{ 
                                 boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
@@ -46,36 +57,6 @@ export default function HomePage() {
                                         boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
                                     }}>{letter}</span>
                             ))}
-                            {/* <span className="mx-1" />
-                            {['T', 'H', 'E', 'S', 'E'].map((letter, i) => (
-                                <span key={i}
-                                    className="px-0.5 py-0.5 text-sm font-bold
-                                    transform border-b-2 border-[#0007] leading-none 
-                                    "
-                                    style={{
-                                        background: i % 2 === 0 ? '#8b0000' : '#ddd',
-                                        color: i % 2 === 0 ? '#fff' : '#000',
-                                        transform: `rotate(${(Math.random() - 0.5) * 8}deg)`,
-                                        fontFamily: i % 2 === 0 ? 'Georgia, serif' : 'Arial, sans-serif',
-                                        fontSize: `21px`,
-                                        boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
-                                    }}>{letter}</span>
-                            ))}
-                            <span className="mx-1" />
-                            {['T', 'A', 'S', 'K', 'S'].map((letter, i) => (
-                                <span key={i}
-                                    className="px-0.25 py-0.5 text-sm font-bold
-                                    transform border-b-2 border-[#0007] leading-none 
-                                    "
-                                    style={{
-                                        background: i % 3 === 0 ? '#1a1a1a' : i % 3 === 1 ? '#c41e3a' : '#f5f5dc',
-                                        color: i % 3 === 0 ? '#fff' : i % 3 === 1 ? '#fff' : '#000',
-                                        transform: `rotate(${(Math.random() - 0.5) * 8}deg)`,
-                                        fontFamily: 'Times New Roman, serif',
-                                        fontSize: `24px`,
-                                        boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
-                                    }}>{letter}</span>
-                            ))} */}
                         </div>
 
                         <div className='relative flex-1 min-h-0 overflow-visible'>
@@ -92,22 +73,20 @@ export default function HomePage() {
                             <div className="absolute -top-10 -right-9 w-[96px] h-[96px] scale-[-1] rotate-12 
                                 opacity-70 bg-center bg-no-repeat bg-cover z-10"
                                 style={{ 
-                                    // background: 'linear-gradient(90deg, #d4b896 0%, #c9a875 100%)', 
                                     backgroundImage: 'url("tape2.webp")',
-                                    // boxShadow: '2px 2px 4px rgba(0,0,0,0.2)' 
                                 }} 
                             />
                             {/* Paper Content Area */}
                             <div className="bg-[#f5f0e6] rounded-none relative p-4 space-y-3 text-black text-md
-                                h-full overflow-y-auto overflow-x-hidden"
+                                h-full overflow-y-auto overflow-x-hidden font-mono"
                                 style={{
                                     background: 'linear-gradient(180deg, #f5f0e6 0%, #e8e0d0 100%)',
                                     boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.1)',
-                                    fontFamily: 'Arial Black, sans-serif'
                                 }}>
                                 
-                                <p className='font-bold text-3xl'>Welcome to the forest</p>
-                                In a world where loss is certain, a group of survivors endure - in a forest for some reason....
+                                <p className='font-bold text-3xl font-inter'>Welcome to granmas basement</p>
+                                Are you a dumbdegenboy who buys the top, jeets for peanuts? <br />
+                                This is prolly for you...
                                 
                                 <div className='relative w-fit rotate-12'>
                                     <img
@@ -133,14 +112,15 @@ export default function HomePage() {
                                     />
                                 </div>
                                 
-
                                 {/* Continue to Wallet Button - Ransom Style */}
                                 <div className="flex flex-wrap justify-center py-2 
                                     bg-center bg-no-repeat bg-conic relative rounded-lg
                                     items-baseline border-b-2
-                                    border-[#0008]
+                                    border-[#0008] transition-transform duration-150 ease-out
+                                    active:scale-[0.96] hover:-translate-y-[1px]
+                                    hover:scale-[1.04] active:translate-y-[1px]
                                     "
-                                    onClick={() => navigate('/deets')}
+                                    onClick={() => go('/deets')}
                                     style={{ 
                                         backgroundImage: 'url("paper.webp")',
                                         boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",

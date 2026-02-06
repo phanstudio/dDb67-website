@@ -22,6 +22,17 @@ export default {
                 'glitch': ['"Rubik Glitch"', 'cursive'],
                 'ransom': ['"Special Elite"', 'cursive'], // Good for ransom-note style
                 'valentine': ['"Valentine Delight"', 'cursive'],
+                'inter': ['"Inter"', 'sans-serif'],
+                'sans': [
+                    "Roboto",
+                    "ui-sans-serif",
+                    "system-ui",
+                    "-apple-system",
+                    "BlinkMacSystemFont",
+                    "Segoe UI",
+                    "Arial",
+                    "sans-serif",
+                  ],
             },
             backgroundImage: {
                 'noise': "url('/noise.png')", // Will check if I can generate or use CSS gradient

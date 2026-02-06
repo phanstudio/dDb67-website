@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import PaperImg from '../components/paperImg';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { useGo } from "../context/Usego";
 import { useSubmission } from '../context/SubmissionContext';
+import Loading from '../components/loading';
 
 export default function DeetsPage() {
-    const navigate = useNavigate()
+    const go = useGo()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
     const [noInviter, setNoInviter] = useState(false)
     const [inviteeLocked, setInviteeLocked] = useState(false)
@@ -95,7 +97,13 @@ export default function DeetsPage() {
             userAgent: navigator.userAgent,
         })
         setStepCompleted('username')
-        navigate('/task')
+        go('/task')
+    }
+
+    if (loading){
+        return (
+            <Loading />
+        )
     }
 
     return (
@@ -104,21 +112,30 @@ export default function DeetsPage() {
             style={{ 
                 backgroundImage: 'url("bg.webp")',
             }}>
-            <div className="relative w-full max-w-md overflow-visible">
+            <div className="relative w-full max-w-md overflow-visible group/clipboard">
                 <div className="relative overflow-visible h-[750px]">
                     {/* Clipboard image (controls the size) */}
                     <img
                     src="clipboard.webp"
                     alt=""
-                    className="w-auto h-full block scale-x-[1.05] scale-y-[0.97]"
+                    className="w-auto h-full block scale-x-[1.05] scale-y-[0.97]
+                        transition-transform duration-300 ease-out
+                        group-hover/clipboard:-translate-y-2
+                        group-hover/clipboard:rotate-[0.4deg]
+                    "
                     />
 
                     {/* Content on top */}
-                    <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col">
+                    <div className="absolute inset-0 p-6 pt-[55px] pb-8 overflow-hidden flex flex-col
+                            transition-transform duration-300 ease-out
+                            group-hover/clipboard:-translate-y-2
+                            group-hover/clipboard:rotate-[0.4deg]
+                        "
+                    >
                         {/* Header - "COMPLETE THESE TASKS" Ransom Style */}
                         <div className="
                             flex flex-wrap justify-center mb-2 px-2 items-baseline z-10
-                            pb-1 relative pt-2 [filter:drop-shadow(0_4px_5px_rgba(0,0,0,0.55))] shrink-0 relative
+                            pb-1 relative pt-2 [filter:drop-shadow(0_4px_5px_rgba(0,0,0,0.55))] shrink-0
                         " 
                             style={{ 
                                 boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
@@ -210,8 +227,8 @@ export default function DeetsPage() {
                                         }}
                                     />
 
-                                    <div className="flex justify-between items-center mb-5 ml-2 relative z-20 flex-col md:flex-row">
-                                        <p className="text-sm text-gray-800 text-center md:text-left" style={{ fontFamily: "Arial Black, sans-serif" }}>
+                                    <div className="flex justify-between items-center mb-5 ml-2 relative z-20 flex-col md:flex-row font-inter font-bold">
+                                        <p className="text-sm text-gray-800 text-center md:text-left">
                                             YOUR X USERNAME (MUST START WITH @):
                                         </p>
                                     </div>
@@ -252,8 +269,8 @@ export default function DeetsPage() {
                                             "radial-gradient(ellipse at 0% 0%, rgba(60,30,10,0.4) 0%, transparent 30%), radial-gradient(ellipse at 100% 0%, rgba(60,30,10,0.3) 0%, transparent 25%), radial-gradient(ellipse at 0% 100%, rgba(60,30,10,0.4) 0%, transparent 30%), radial-gradient(ellipse at 100% 100%, rgba(60,30,10,0.3) 0%, transparent 25%)",
                                         }} />
 
-                                    <div className="flex justify-between items-center mb-4 relative z-20 flex-col md:flex-row text-black">
-                                        <p className="text-sm text-center md:text-left" style={{ fontFamily: "Arial Black, sans-serif" }}>
+                                    <div className="flex justify-between items-center mb-4 relative z-20 flex-col md:flex-row text-black font-inter font-bold">
+                                        <p className="text-sm text-center md:text-left">
                                             WHO INVITED YOU? (OPTIONAL):
                                         </p>
                                     </div>
@@ -268,6 +285,7 @@ export default function DeetsPage() {
                                         }}
                                         placeholder="@inviterusername"
                                         paperImage="/burntpaper.webp"
+                                        disabled={noInviter}
                                         />
                                     </div>
                                     {inviteeError && (
@@ -339,6 +357,11 @@ export default function DeetsPage() {
                                     bg-center bg-no-repeat bg-conic relative rounded-lg
                                     items-baseline border-b-2
                                     border-[#0008]
+                                    transition-transform duration-150 ease-out
+                                    active:scale-[0.96]
+                                    hover:-translate-y-[1px]
+                                    hover:scale-[1.04]
+                                    active:translate-y-[1px]
                                     "
                                     onClick={handleContinue}
                                     style={{ 
@@ -448,7 +471,7 @@ export default function DeetsPage() {
                                         relative z-10
                                         font-valentine
                                         "
-                                        onClick={() => navigate('/')}
+                                        onClick={() => go('/')}
                                         // style={{ fontFamily: "Valentine Delight" }}
                                     >
                                         <span className="text-lg">←</span> BACK

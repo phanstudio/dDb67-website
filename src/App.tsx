@@ -1,13 +1,14 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import TaskPage from './pages/TaskPage'
 import DeetsPage from './pages/DeetsPage'
 import SubmitPage from './pages/SubmitPage'
 import HomePage from './pages/HomePage'
 import WalletPage from './pages/WalletPage'
 import { SubmissionProvider } from './context/SubmissionContext'
+import NotFoundRedirect from './pages/NotFoundRedirect'
 
-// global context for inputting info
-// loading inbtw 
+// adding the tv section
+
 export default function App() {
   return (
     <SubmissionProvider>
@@ -29,7 +30,7 @@ export default function App() {
           <Route path="/wallet" element={<WalletPage />} />
 
           {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFoundRedirect />} />
         </Routes>
       </BrowserRouter>
     </SubmissionProvider>

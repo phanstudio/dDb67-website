@@ -1,5 +1,6 @@
 $ npm install
 npm run dev
+$ npm run build
 
 $ npm install react-router-dom
 
