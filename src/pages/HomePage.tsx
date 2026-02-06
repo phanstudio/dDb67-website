@@ -1,12 +1,7 @@
-import { useState } from 'react';
-import PaperImg from '../components/paperImg';
-import GoBut from '../components/goBut';
-import KeyBut from '../components/keyBut';
 import { useNavigate } from 'react-router-dom'
 
 
 export default function HomePage() {
-    const [task1Link, setTask1Link] = useState('');
     const navigate = useNavigate()
     const continue_array: number[] = [1.1,0.8,1,1,0.9,0.7,0.7,1.0];
 
