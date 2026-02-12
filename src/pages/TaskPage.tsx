@@ -197,7 +197,7 @@ export default function TaskPage() {
                                         LIKE & RETWEET THIS POST
                                     </p>
                                     <KeyBut 
-                                        url='https://x.com/dumbdegenboy67'
+                                        url='https://x.com/dumbdegenboy67/status/2021992702955651369'
                                         value='CTRL'
                                     />
                                     <div className="absolute -bottom-4 rotate-45 md:rotate-0 md:-bottom-6 md:-right-1 w-[50px] h-[72px] scale-x-[-1] 
