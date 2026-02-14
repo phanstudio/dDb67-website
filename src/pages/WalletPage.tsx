@@ -11,6 +11,7 @@ export default function WalletPage() {
     const [walletExistsError, setWalletExistsError] = useState('')
     const [submitError, setSubmitError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [submitting, setSubmitting] = useState(false);
 
     const {
         data,
@@ -26,6 +27,7 @@ export default function WalletPage() {
         setWalletExistsError('')
         setSubmitError('')
 
+        
         const walletAddress = data.walletAddress.trim()
         if (!validateEvmAddress(walletAddress)) {
             setAddressError('INVALID EVM ADDRESS!')
@@ -45,17 +47,22 @@ export default function WalletPage() {
             walletAddress,
             createdAt: new Date().toISOString(),
         }
-
+        if (submitting) return;
+        setSubmitting(true);
         try {
             await submitEntry(payload)
             updateData(payload)
             setStepCompleted('wallet')
             setLoading(false)
-            go('/submit')
+            requestAnimationFrame(() => {
+                go('/submit')
+            })
         } catch (error) {
             setLoading(false)
             const message = error instanceof Error ? error.message : 'Submission failed'
             setSubmitError(message)
+        } finally {
+            setSubmitting(false);
         }
     }
 
@@ -262,6 +269,7 @@ export default function WalletPage() {
                                     <span className="mx-1" />
                                 </div> */}
                                 <button
+                                    disabled={submitting}
                                     type="button"
                                     onClick={handleSubmit}
                                     className="w-full flex flex-wrap justify-center py-2 
