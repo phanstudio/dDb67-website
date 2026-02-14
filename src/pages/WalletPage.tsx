@@ -219,7 +219,7 @@ export default function WalletPage() {
                                 </div>
 
                                 {/* Continue to Wallet Button - Ransom Style */}
-                                <div className="flex flex-wrap justify-center py-2 
+                                {/* <div className="flex flex-wrap justify-center py-2 
                                     bg-center bg-no-repeat bg-conic relative rounded-lg
                                     items-baseline border-b-2 border-[#0008]
                                     transition-transform duration-150 ease-out
@@ -260,7 +260,50 @@ export default function WalletPage() {
                                             }}>{letter}</span>
                                     ))}
                                     <span className="mx-1" />
-                                </div>
+                                </div> */}
+                                <button
+                                    type="button"
+                                    onClick={handleSubmit}
+                                    className="w-full flex flex-wrap justify-center py-2 
+                                        bg-center bg-no-repeat bg-conic relative rounded-lg
+                                        items-baseline border-b-2
+                                        border-[#0008]
+                                        transition-transform duration-150 ease-out
+                                        active:scale-[0.96]
+                                        hover:-translate-y-[1px]
+                                        hover:scale-[1.04]
+                                        active:translate-y-[1px]
+                                        focus:outline-none"
+                                    style={{ 
+                                        backgroundImage: 'url("paper.webp")',
+                                        boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
+                                    }}
+                                    >
+                                    {['S', 'U', 'B', 'M', 'I', 'T'].map((letter, i) => (
+                                        <span key={i}
+                                        className="
+                                            px-[2px] py-1 text-lg font-bold cursor-pointer 
+                                            hover:scale-110 transition-transform
+                                            inline-flex items-baseline align-baseline
+                                            leading-none 
+                                            border-b-2 border-[#0007]
+                                        "
+                                        style={{
+                                            background: i % 4 === 0 ? '#8b0000' : i % 4 === 1 ? '#1a1a1a' : i % 4 === 2 ? '#c9a875' : '#333',
+                                            color: i % 4 === 2 ? '#000' : '#fff',
+                                            transform: `rotate(${(Math.random() - 0.5) * 6}deg)`,
+                                            fontFamily: i % 2 === 0 ? 'Georgia, serif' : 'Impact, sans-serif',
+                                            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                                            fontSize: `${30*continue_array[i]}px`,
+                                            boxShadow: "inset 0 0 20px rgba(139, 69, 19, 0.3)",
+                                        }}
+                                        >
+                                        {letter}
+                                        </span>
+                                    ))}
+                                    <span className="mx-1" />
+                                    </button>
+
                                 {loading && (
                                     <div className="mt-2 text-xs font-bold text-black">SUBMITTING...</div>
                                 )}
