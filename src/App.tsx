@@ -6,7 +6,10 @@
 // import WalletPage from './pages/WalletPage'
 // import { SubmissionProvider } from './context/SubmissionContext'
 
-import NomorePage from "./pages/NomorePage"
+import CheekerPage from "./pages/CheckerPage"
+
+// import NomorePage from "./pages/NomorePage"
+
 
 // import NotFoundRedirect from './pages/NotFoundRedirect'
 
@@ -37,6 +40,7 @@ export default function App() {
     //     </Routes>
     //   </BrowserRouter>
     // </SubmissionProvider>
-    <NomorePage twitterUrl="https://x.com/dumbdegenboy67"/>
+    // <NomorePage twitterUrl="https://x.com/dumbdegenboy67"/>
+    <CheekerPage />
   )
 }
