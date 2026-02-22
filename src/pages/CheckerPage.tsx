@@ -33,89 +33,6 @@ export default function CheckerPage() {
 
     const normalizedWallet = useMemo(() => normalizeWallet(wallet), [wallet]);
 
-    // async function handleCheck() {
-    //   setUsernameError("");
-    //   setEligableMessage("");
-
-    //   const w = normalizedWallet;
-
-    //   if (!w) {
-    //     setUsernameError("Please enter your wallet address.");
-    //     return;
-    //   }
-
-    //   // If you ONLY support EVM addresses, uncomment this:
-    //   // if (!isValidEvmAddress(w)) {
-    //   //   setUsernameError("Invalid EVM wallet format (expected 0x...).");
-    //   //   return;
-    //   // }
-
-    //   setLoading(true);
-    //   try {
-    //     // ✅ Choose ONE of these styles depending on your backend:
-
-    //     // A) GET with querystring (common)
-    //     const res = await fetch(
-    //       `${API_BASE}/api/verify-wallet/${encodeURIComponent(w)}`, 
-    //       {
-    //         method: "GET",
-    //         headers: { Accept: "application/json" },
-    //       }
-    //     );
-
-    //     // B) POST JSON body (also common)
-    //     // const res = await fetch(`${API_BASE}/eligibility`, {
-    //     //   method: "POST",
-    //     //   headers: { "Content-Type": "application/json", Accept: "application/json" },
-    //     //   body: JSON.stringify({ wallet: w }),
-    //     // });
-
-    //     // If backend returns non-2xx, try to show its message
-    //     const text = await res.text();
-    //     console.log(res)
-    //     let data: any = null;
-    //     try {
-    //       data = text ? JSON.parse(text) : null;
-    //     } catch {
-    //       // not JSON
-    //     }
-
-    //     if (!res.ok) {
-    //       const msg =
-    //         data?.detail ||
-    //         data?.message ||
-    //         data?.error ||
-    //         `Request failed (${res.status})`;
-    //       setUsernameError(msg);
-    //       return;
-    //     }
-
-    //     // ✅ Handle flexible response shapes:
-    //     // expected: { eligible: boolean, message?: string }
-    //     const eligible =
-    //       data?.eligible ??
-    //       data?.isEligible ??
-    //       data?.eligable ?? // in case backend uses same spelling
-    //       data?.status === "eligible";
-
-    //     const message =
-    //       data?.message ||
-    //       data?.detail ||
-    //       (eligible ? "✅ You are eligible!" : "❌ You are not eligible.");
-
-    //     if (eligible) {
-    //       setEligableMessage(message);
-    //     } else {
-    //       setUsernameError(message);
-    //     }
-    //   } catch (err: any) {
-    //     // CORS errors often show up here as TypeError: Failed to fetch
-    //     setUsernameError(err?.message || "Network error. Please try again.");
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // }
-
     async function handleCheck() {
       setUsernameError("");
       setEligableMessage("");
@@ -149,9 +66,9 @@ export default function CheckerPage() {
         }
     
         if (data.exists) {
-          setEligableMessage("✅ Wallet eligible");
+          setEligableMessage("✅ LFG You're a dumbdegenboy");
         } else {
-          setUsernameError("❌ Wallet not eligible");
+          setUsernameError("❌ NGMI BOZO");
         }
       } catch (err: any) {
         setUsernameError(err?.message || "Network error");
